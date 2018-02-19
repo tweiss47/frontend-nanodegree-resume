@@ -13,28 +13,27 @@ var bio = {
         github: 'tweiss47',
         location: 'Seattle, Washington'
     },
-    welcomeMessage: 'This is an online resume project demonstrating basic front end development skills.',
+    welcomeMessage: 'This is an online resume project demonstrating basic front-end development skills.',
     skills: ['C/C++', 'Java', 'C#', 'Azure', 'Systems Engineering', 'Web Front-End'],
     biopic: 'images/fry.jpg',
     display: function() {
-        // Format Data, Build a Resume Header
-        var formattedName = HTMLheaderName.replace('%data%', bio.name);
-        var formattedRole = HTMLheaderRole.replace('%data%', bio.role);
-        var formattedEmail = HTMLemail.replace('%data%', bio.contacts.email);
-        var formattedMobile = HTMLmobile.replace('%data%', bio.contacts.mobile);
-        var formattedBioPic = HTMLbioPic.replace('%data%', bio.biopic);
-        var formattedWelcome = HTMLwelcomeMsg.replace('%data%', bio.welcomeMessage);
+        // Built the name header
+        $('#header').prepend(HTMLheaderRole.replace('%data%', bio.role));
+        $('#header').prepend(HTMLheaderName.replace('%data%', bio.name));
+        $('#header').append(HTMLbioPic.replace('%data%', bio.biopic));
+        $('#header').append(HTMLwelcomeMsg.replace('%data%', bio.welcomeMessage));
+        
+        // Add contacts to the header and footer
+        var formattedContacts = 
+            HTMLmobile.replace('%data%', bio.contacts.mobile) +
+            HTMLemail.replace('%data%', bio.contacts.email) +
+            HTMLgithub.replace('%data%', bio.contacts.github) +
+            HTMLlocation.replace('%data%', bio.contacts.location);
 
-        // Setup the header
-        $('#header').prepend(formattedRole);
-        $('#header').prepend(formattedName);
-        $('#header').append(formattedBioPic);
-        $('#header').append(formattedWelcome);
+        $('#topContacts').append(formattedContacts);
+        $('#footerContacts').append(formattedContacts);
 
-        // Add contact elements
-        $('#topContacts').append(formattedEmail);
-        $('#topContacts').append(formattedMobile);
-
+        // Add skills 
         $('#header').append(HTMLskillsStart);
         bio.skills.forEach(function(skill) {
             $('#skills').append(
@@ -106,14 +105,18 @@ var education = {
         }
     ],
     display: function() {
-        $('#education').append(HTMLschoolStart);
-        var pomona =
-            HTMLschoolName.replace('%data%', education.schools[0].name) +
-            HTMLschoolDegree.replace('%data%', education.schools[0].degree) +
-            HTMLschoolDates.replace('%data%', education.schools[0].dates) +
-            HTMLschoolLocation.replace('%data%', education.schools[0].location) + 
-            HTMLschoolMajor.replace('%data%', education.schools[0].majors[0]);
-        $('.education-entry').append(pomona);
+        education.schools.forEach(function(school) {
+            $('#education').append(HTMLschoolStart);
+            var formattedSchool = 
+                HTMLschoolName.replace('%data%', school.name) +
+                HTMLschoolDegree.replace('%data%', school.degree) +
+                HTMLschoolDates.replace('%data%', school.dates) +
+                HTMLschoolLocation.replace('%data%', school.location) +
+                HTMLschoolMajor.replace('%data%', school.majors.join(', '));
+            $('.education-entry:last').append(formattedSchool);
+        });
+
+        // TODO finish the online course display
     }
 };
 education.display();
@@ -126,8 +129,7 @@ var projects = {
             dates: 'February 2018',
             desription: 'Udacity FEND course project. Using basic javascript skills to populate a resume template.',
             images: [
-                'images/197x148.gif',
-                'images/fry.jpg'
+                'images/197x148.gif'
             ] 
         },
         {
