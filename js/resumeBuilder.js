@@ -105,8 +105,9 @@ var education = {
         }
     ],
     display: function() {
+        var eduSection = $('#education');
         education.schools.forEach(function(school) {
-            $('#education').append(HTMLschoolStart);
+            eduSection.append(HTMLschoolStart);
             var formattedSchool = 
                 HTMLschoolName.replace('%data%', school.name) +
                 HTMLschoolDegree.replace('%data%', school.degree) +
@@ -116,7 +117,18 @@ var education = {
             $('.education-entry:last').append(formattedSchool);
         });
 
-        // TODO finish the online course display
+        if (education.onlineCourses.length > 0) {
+            eduSection.append(HTMLonlineClasses); 
+            education.onlineCourses.forEach(function(course) {
+                eduSection.append(HTMLschoolStart);
+                var formattedCourse = 
+                    HTMLonlineTitle.replace('%data%', course.title) +
+                    HTMLonlineSchool.replace('%data%', course.school) +
+                    HTMLonlineDates.replace('%data%', course.dates) +
+                    HTMLonlineURL.replace('%data%', course.url);
+                $('.education-entry:last').append(formattedCourse);
+            });
+        }
     }
 };
 education.display();
@@ -163,7 +175,7 @@ var projects = {
 };
 projects.display();
 
-// TODO - need to finish the google map
+// Attach the map functionality implemented in helper.js
 var displayMap = function() {
     $('#mapDiv').append(googleMap);
 };
