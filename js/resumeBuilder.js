@@ -18,10 +18,11 @@ var bio = {
     biopic: 'images/fry.jpg',
     display: function() {
         // Built the name header
-        $('#header').prepend(HTMLheaderRole.replace('%data%', bio.role));
-        $('#header').prepend(HTMLheaderName.replace('%data%', bio.name));
-        $('#header').append(HTMLbioPic.replace('%data%', bio.biopic));
-        $('#header').append(HTMLwelcomeMsg.replace('%data%', bio.welcomeMessage));
+        var header = $('#header');
+        header.prepend(HTMLheaderRole.replace('%data%', bio.role));
+        header.prepend(HTMLheaderName.replace('%data%', bio.name));
+        header.append(HTMLbioPic.replace('%data%', bio.biopic));
+        header.append(HTMLwelcomeMsg.replace('%data%', bio.welcomeMessage));
         
         // Add contacts to the header and footer
         var formattedContacts = 
@@ -30,11 +31,10 @@ var bio = {
             HTMLgithub.replace('%data%', bio.contacts.github) +
             HTMLlocation.replace('%data%', bio.contacts.location);
 
-        $('#topContacts').append(formattedContacts);
-        $('#footerContacts').append(formattedContacts);
+        $('#topContacts, #footerContacts').append(formattedContacts);
 
         // Add skills 
-        $('#header').append(HTMLskillsStart);
+        header.append(HTMLskillsStart);
         bio.skills.forEach(function(skill) {
             $('#skills').append(
                 HTMLskills.replace('%data%', skill)
